@@ -1,0 +1,13 @@
+# torch is pinned to the version used for the results; its CUDA build depends on
+# your platform. Install torch first following https://pytorch.org/get-started/locally/
+# and then the rest with:  pip install -r requirements.txt
+#
+# Requires Python 3.11 and a POSIX OS (Linux/macOS/WSL): results_log.py uses
+# fcntl for file locking, which is not available on native Windows.
+
+torch==2.5.1
+numpy==1.26.4
+scipy==1.12.0
+pandas==2.3.3
+sbi==0.25.0
+mne==1.11.0          # optional: only for the forward model (Config.USE_FORWARD_MODEL)

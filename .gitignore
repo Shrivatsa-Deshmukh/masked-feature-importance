@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+results/*/summary_*.csv
+*.csv.tmp
+results/logs/
+results/*/.lock
