@@ -1,0 +1,60 @@
+{
+  "NUM_SIMULATIONS": 8192,
+  "BATCH_SIZE": 512,
+  "LEARNING_RATE": 0.0005,
+  "MAX_EPOCHS": 500,
+  "STOP_AFTER_EPOCHS": 25,
+  "VALIDATION_FRACTION": 0.15,
+  "HIDDEN_FEATURES": 125,
+  "NUM_TRANSFORMS": 5,
+  "MASK_P_FULL": 0.0,
+  "MASK_P_LOO": 0.0,
+  "N_EVAL_SAMPLES": 500,
+  "N_EVAL_LOGPROB": 2500,
+  "N_POSTERIOR_SAMPLES": 1000,
+  "CREDIBLE_LEVELS": [
+    0.5,
+    0.9,
+    0.95
+  ],
+  "EVAL_SEED": 12345,
+  "N_SUPPORT_SAMPLES": 100,
+  "R2_SUBSETS": "loo",
+  "USE_FORWARD_MODEL": false,
+  "SOURCE_LOCATION": "visual",
+  "N_CHANNELS": 1,
+  "ELECTRODE_NAMES": null,
+  "ADD_NOISE": false,
+  "NOISE_SNR_MIN": 5.0,
+  "NOISE_SNR_MAX": 25.0,
+  "NOISE_EXPONENT": 1.0,
+  "EVAL_SNR_DB": null,
+  "N_CONTROL_NOISE": 0,
+  "EXCLUDED_FEATURES": [
+    "signal_mean"
+  ],
+  "DT": 0.001,
+  "FS_SIM": 1000,
+  "FS_OUT": 250,
+  "T_OUTPUT": 3.0,
+  "T_DISCARD": 2.0,
+  "SIGMA_VALUE": 4.5,
+  "PRIOR_MIN": [
+    4.90527477843843,
+    4.787491742782046,
+    -0.2876820724517809,
+    -0.6931471805599453
+  ],
+  "PRIOR_MAX": [
+    5.598421958998374,
+    5.857933154483459,
+    0.22314355131420974,
+    0.6931471805599453
+  ],
+  "PARAM_NAMES": [
+    "log_C",
+    "log_mu",
+    "log_kappa",
+    "log_g"
+  ]
+}
