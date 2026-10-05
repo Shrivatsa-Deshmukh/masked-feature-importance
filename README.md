@@ -1,4 +1,4 @@
-# masked-importance
+# masked-feature-importance
 
 **Which summary statistics actually inform a simulation-based posterior, and by
 how much?**
