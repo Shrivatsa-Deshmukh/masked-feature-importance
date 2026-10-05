@@ -142,8 +142,7 @@ The reference trains one NPE on each feature alone.
 
 ## Getting started
 
-Python 3.11 on Linux, macOS or WSL. Install PyTorch for your platform
-(https://pytorch.org/get-started/locally/), then:
+Python 3.11 on Linux, macOS or WSL. 
 
 ```bash
 pip install -r requirements.txt
