@@ -202,8 +202,6 @@ masked NPE and a reference.
 
 ## Lessons learned
 
-Mistakes we made along the way, and how the code now avoids them.
-
 **Measuring importance**
 
 - **Shuffling or blanking a feature is misleading.** It creates feature
