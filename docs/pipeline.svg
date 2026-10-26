@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 610" width="1240" height="610" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>masked-feature-importance pipeline</title>
+  <desc>Simulate and summarize, train one masked NPE with random feature masks, score every feature subset, read unique, marginal and Shapley importance off as score differences, and check them against exact answers and retraining.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f6f8fa; stroke: #d1d9e0; stroke-width: 1; }
+    .box { fill: #ffffff; stroke: #d1d9e0; stroke-width: 1; }
+    .t { fill: #1f2328; }
+    .m { fill: #59636e; }
+    .h { fill: #1f2328; font-weight: 600; font-size: 19px; }
+    .num { fill: #ffffff; font-weight: 700; font-size: 14px; }
+    .numbg { fill: #1f2328; }
+    .arrow { stroke: #818b98; stroke-width: 1.8; fill: none; }
+    .arrowhead { fill: #818b98; }
+    .on { fill: #59636e; }
+    .off { fill: none; stroke: #818b98; stroke-width: 1.2; stroke-dasharray: 3 2; }
+    .ontxt { fill: #ffffff; }
+    .offtxt { fill: #818b98; }
+    .sig { stroke: #1f2328; stroke-width: 1.6; fill: none; }
+    .node { fill: #ffffff; stroke: #818b98; stroke-width: 1.2; }
+    .uniq { stroke: #bc4c00; } .uniqf { fill: #bc4c00; }
+    .marg { stroke: #0969da; } .margf { fill: #0969da; }
+    .rest { stroke: #818b98; } .restf { fill: #818b98; }
+    .edge { stroke-width: 2.5; }
+    .chip { fill: #ffffff; stroke-width: 1.5; }
+    .neutral { stroke: #818b98; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .panel { fill: #151b23; stroke: #3d444d; }
+      .box, .chip { fill: #0d1117; stroke: #3d444d; }
+      .t, .h { fill: #e6edf3; }
+      .m { fill: #9198a1; }
+      .numbg { fill: #e6edf3; }
+      .num { fill: #0d1117; }
+      .arrow { stroke: #656c76; }
+      .arrowhead { fill: #656c76; }
+      .on { fill: #9198a1; }
+      .ontxt { fill: #0d1117; }
+      .off { stroke: #656c76; }
+      .offtxt { fill: #656c76; }
+      .sig { stroke: #e6edf3; }
+      .node { fill: #0d1117; stroke: #656c76; }
+      .uniq { stroke: #f0883e; } .uniqf { fill: #f0883e; }
+      .marg { stroke: #4493f8; } .margf { fill: #4493f8; }
+      .rest { stroke: #656c76; } .restf { fill: #656c76; }
+      .neutral { stroke: #656c76; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1240" height="610"/>
+
+  <!-- ============ 1: simulate & summarize ============ -->
+  <rect class="panel" x="30" y="20" width="265" height="440" rx="12"/>
+  <circle class="numbg" cx="58" cy="53" r="13"/><text class="num" x="58" y="58" text-anchor="middle">1</text>
+  <text class="h" x="80" y="60">Simulate &amp; summarize</text>
+
+  <rect class="box" x="87.5" y="85" width="150" height="36" rx="7"/>
+  <text class="t" x="162.5" y="109" text-anchor="middle" font-size="16">θ ~ prior</text>
+  <line class="arrow" x1="162.5" y1="123" x2="162.5" y2="145" marker-end="url(#ah)"/>
+
+  <rect class="box" x="62.5" y="148" width="200" height="52" rx="7"/>
+  <text class="t" x="162.5" y="170" text-anchor="middle" font-size="16">simulator</text>
+  <text class="m" x="162.5" y="191" text-anchor="middle" font-size="13.5">Jansen-Rit EEG · toy</text>
+  <line class="arrow" x1="162.5" y1="202" x2="162.5" y2="224" marker-end="url(#ah)"/>
+
+  <polyline class="sig" points="82,252 90,244 97,258 104,239 111,256 118,248 125,262 132,235 139,253 146,246 153,260 160,241 167,255 174,249 181,263 188,238 195,254 202,247 209,259 216,242 223,256 230,250 237,261 243,246"/>
+  <line class="arrow" x1="162.5" y1="272" x2="162.5" y2="294" marker-end="url(#ah)"/>
+
+  <g font-size="13" font-weight="600" text-anchor="middle">
+    <rect class="on" x="49.5"  y="298" width="28" height="30" rx="5"/><text class="ontxt" x="63.5"  y="318">s1</text>
+    <rect class="on" x="82.5"  y="298" width="28" height="30" rx="5"/><text class="ontxt" x="96.5"  y="318">s2</text>
+    <rect class="on" x="115.5" y="298" width="28" height="30" rx="5"/><text class="ontxt" x="129.5" y="318">s3</text>
+    <rect class="on" x="148.5" y="298" width="28" height="30" rx="5"/><text class="ontxt" x="162.5" y="318">s4</text>
+    <rect class="on" x="181.5" y="298" width="28" height="30" rx="5"/><text class="ontxt" x="195.5" y="318">s5</text>
+    <rect class="on" x="214.5" y="298" width="28" height="30" rx="5"/><text class="ontxt" x="228.5" y="318">s6</text>
+    <rect class="on" x="247.5" y="298" width="28" height="30" rx="5"/><text class="ontxt" x="261.5" y="318">s7</text>
+  </g>
+  <text class="t" x="162.5" y="362" text-anchor="middle" font-size="16">7 summary statistics</text>
+  <text class="m" x="162.5" y="384" text-anchor="middle" font-size="13.5">z-scored</text>
+
+  <line class="arrow" x1="299" y1="240" x2="331" y2="240" marker-end="url(#ah)"/>
+
+  <!-- ============ 2: train with random masks ============ -->
+  <rect class="panel" x="335" y="20" width="265" height="440" rx="12"/>
+  <circle class="numbg" cx="363" cy="53" r="13"/><text class="num" x="363" y="58" text-anchor="middle">2</text>
+  <text class="h" x="385" y="60">Train with masks</text>
+
+  <text class="m" x="467.5" y="96" text-anchor="middle" font-size="13.5">each example hides a random subset</text>
+  <g font-size="12" text-anchor="middle">
+    <!-- 1101011 -->
+    <rect class="on"  x="358.5" y="108" width="26" height="26" rx="5"/>
+    <rect class="on"  x="390.5" y="108" width="26" height="26" rx="5"/>
+    <rect class="off" x="422.5" y="108" width="26" height="26" rx="5"/><text class="offtxt" x="435.5" y="126">0</text>
+    <rect class="on"  x="454.5" y="108" width="26" height="26" rx="5"/>
+    <rect class="off" x="486.5" y="108" width="26" height="26" rx="5"/><text class="offtxt" x="499.5" y="126">0</text>
+    <rect class="on"  x="518.5" y="108" width="26" height="26" rx="5"/>
+    <rect class="on"  x="550.5" y="108" width="26" height="26" rx="5"/>
+    <!-- 0110100 -->
+    <rect class="off" x="358.5" y="140" width="26" height="26" rx="5"/><text class="offtxt" x="371.5" y="158">0</text>
+    <rect class="on"  x="390.5" y="140" width="26" height="26" rx="5"/>
+    <rect class="on"  x="422.5" y="140" width="26" height="26" rx="5"/>
+    <rect class="off" x="454.5" y="140" width="26" height="26" rx="5"/><text class="offtxt" x="467.5" y="158">0</text>
+    <rect class="on"  x="486.5" y="140" width="26" height="26" rx="5"/>
+    <rect class="off" x="518.5" y="140" width="26" height="26" rx="5"/><text class="offtxt" x="531.5" y="158">0</text>
+    <rect class="off" x="550.5" y="140" width="26" height="26" rx="5"/><text class="offtxt" x="563.5" y="158">0</text>
+    <!-- 1011110 -->
+    <rect class="on"  x="358.5" y="172" width="26" height="26" rx="5"/>
+    <rect class="off" x="390.5" y="172" width="26" height="26" rx="5"/><text class="offtxt" x="403.5" y="190">0</text>
+    <rect class="on"  x="422.5" y="172" width="26" height="26" rx="5"/>
+    <rect class="on"  x="454.5" y="172" width="26" height="26" rx="5"/>
+    <rect class="on"  x="486.5" y="172" width="26" height="26" rx="5"/>
+    <rect class="on"  x="518.5" y="172" width="26" height="26" rx="5"/>
+    <rect class="off" x="550.5" y="172" width="26" height="26" rx="5"/><text class="offtxt" x="563.5" y="190">0</text>
+  </g>
+  <line class="arrow" x1="467.5" y1="202" x2="467.5" y2="222" marker-end="url(#ah)"/>
+
+  <rect class="box" x="372.5" y="225" width="190" height="52" rx="7"/>
+  <text class="t" x="467.5" y="247" text-anchor="middle" font-size="16">[ s ⊙ m ,  m ]</text>
+  <text class="m" x="467.5" y="268" text-anchor="middle" font-size="13.5">masked stats + the mask</text>
+  <line class="arrow" x1="467.5" y1="279" x2="467.5" y2="297" marker-end="url(#ah)"/>
+
+  <rect class="box" x="372.5" y="300" width="190" height="52" rx="7"/>
+  <text class="t" x="467.5" y="322" text-anchor="middle" font-size="16">masked NPE</text>
+  <text class="m" x="467.5" y="343" text-anchor="middle" font-size="13.5">normalizing flow</text>
+  <line class="arrow" x1="467.5" y1="354" x2="467.5" y2="374" marker-end="url(#ah)"/>
+
+  <text class="t" x="467.5" y="398" text-anchor="middle" font-size="16.5" font-weight="600">q(θ | s_S) for any S</text>
+  <text class="m" x="467.5" y="421" text-anchor="middle" font-size="13.5">one training run per seed</text>
+
+  <line class="arrow" x1="604" y1="240" x2="636" y2="240" marker-end="url(#ah)"/>
+
+  <!-- ============ 3: score every subset ============ -->
+  <rect class="panel" x="640" y="20" width="265" height="440" rx="12"/>
+  <circle class="numbg" cx="668" cy="53" r="13"/><text class="num" x="668" y="58" text-anchor="middle">3</text>
+  <text class="h" x="690" y="60">Score every subset</text>
+
+  <text class="t" x="772.5" y="100" text-anchor="middle" font-size="16">v(S) = mean log q(θ | s_S)</text>
+  <text class="m" x="772.5" y="121" text-anchor="middle" font-size="13.5">on held-out simulations, in nats</text>
+
+  <!-- lattice for 3 features; edges first -->
+  <g class="edge uniq">
+    <line x1="772.5" y1="171" x2="690"   y2="210"/>
+    <line x1="772.5" y1="171" x2="772.5" y2="210"/>
+    <line x1="772.5" y1="171" x2="855"   y2="210"/>
+  </g>
+  <g class="edge rest" style="stroke-width: 1.5">
+    <line x1="690"   y1="236" x2="690"   y2="275"/>
+    <line x1="690"   y1="236" x2="772.5" y2="275"/>
+    <line x1="772.5" y1="236" x2="690"   y2="275"/>
+    <line x1="772.5" y1="236" x2="855"   y2="275"/>
+    <line x1="855"   y1="236" x2="772.5" y2="275"/>
+    <line x1="855"   y1="236" x2="855"   y2="275"/>
+  </g>
+  <g class="edge marg">
+    <line x1="690"   y1="301" x2="772.5" y2="340"/>
+    <line x1="772.5" y1="301" x2="772.5" y2="340"/>
+    <line x1="855"   y1="301" x2="772.5" y2="340"/>
+  </g>
+  <g font-size="14" text-anchor="middle">
+    <rect class="node" x="734.5" y="145" width="76" height="26" rx="13"/><text class="t" x="772.5" y="163">{1,2,3}</text>
+    <rect class="node" x="661"   y="210" width="58" height="26" rx="13"/><text class="t" x="690"   y="228">{1,2}</text>
+    <rect class="node" x="743.5" y="210" width="58" height="26" rx="13"/><text class="t" x="772.5" y="228">{1,3}</text>
+    <rect class="node" x="826"   y="210" width="58" height="26" rx="13"/><text class="t" x="855"   y="228">{2,3}</text>
+    <rect class="node" x="667"   y="275" width="46" height="26" rx="13"/><text class="t" x="690"   y="293">{1}</text>
+    <rect class="node" x="749.5" y="275" width="46" height="26" rx="13"/><text class="t" x="772.5" y="293">{2}</text>
+    <rect class="node" x="832"   y="275" width="46" height="26" rx="13"/><text class="t" x="855"   y="293">{3}</text>
+    <rect class="node" x="749.5" y="340" width="46" height="26" rx="13"/><text class="t" x="772.5" y="358">∅</text>
+  </g>
+  <text class="m" x="772.5" y="394" text-anchor="middle" font-size="13.5">each edge adds one feature</text>
+  <text class="t" x="772.5" y="421" text-anchor="middle" font-size="14.5">2⁷ = 128 subsets, no retraining</text>
+
+  <line class="arrow" x1="909" y1="240" x2="941" y2="240" marker-end="url(#ah)"/>
+
+  <!-- ============ 4: importance ============ -->
+  <rect class="panel" x="945" y="20" width="265" height="440" rx="12"/>
+  <circle class="numbg" cx="973" cy="53" r="13"/><text class="num" x="973" y="58" text-anchor="middle">4</text>
+  <text class="h" x="995" y="60">Read off importance</text>
+
+  <rect class="uniqf" x="963" y="88" width="5" height="70" rx="2.5"/>
+  <text class="t" x="982" y="106" font-size="17" font-weight="600">unique</text>
+  <text class="t" x="982" y="129" font-size="15.5">v(all) − v(all \ j)</text>
+  <text class="m" x="982" y="150" font-size="13.5">what j adds to the rest</text>
+
+  <rect class="margf" x="963" y="183" width="5" height="70" rx="2.5"/>
+  <text class="t" x="982" y="201" font-size="17" font-weight="600">marginal</text>
+  <text class="t" x="982" y="224" font-size="15.5">v({j}) − v(∅)</text>
+  <text class="m" x="982" y="245" font-size="13.5">what j says on its own</text>
+
+  <rect class="restf" x="963" y="278" width="5" height="70" rx="2.5"/>
+  <text class="t" x="982" y="296" font-size="17" font-weight="600">Shapley</text>
+  <text class="t" x="982" y="319" font-size="15.5">weighted over all edges</text>
+  <text class="m" x="982" y="340" font-size="13.5">j's fair share of the total</text>
+
+  <text class="m" x="1077.5" y="421" text-anchor="middle" font-size="13.5">uncertainty: spread over seeds</text>
+
+  <line class="arrow" x1="1077.5" y1="462" x2="1077.5" y2="486" marker-end="url(#ah)"/>
+
+  <!-- ============ 5: validate ============ -->
+  <rect class="panel" x="30" y="490" width="1180" height="100" rx="12"/>
+  <circle class="numbg" cx="58" cy="523" r="13"/><text class="num" x="58" y="528" text-anchor="middle">5</text>
+  <text class="h" x="80" y="530">Check against references</text>
+  <text class="m" x="320" y="530" font-size="13.5">(the usual approach: one retrained NPE per subset)</text>
+
+  <g font-size="15">
+    <rect class="chip neutral" x="55"  y="545" width="200" height="32" rx="16"/>
+    <text class="t" x="155" y="566" text-anchor="middle">toy: exact posterior</text>
+    <rect class="chip uniq" x="270" y="545" width="240" height="32" rx="16"/>
+    <text class="t" x="390" y="566" text-anchor="middle">retrain without j → unique</text>
+    <rect class="chip marg" x="525" y="545" width="260" height="32" rx="16"/>
+    <text class="t" x="655" y="566" text-anchor="middle">retrain on j alone → marginal</text>
+  </g>
+  <line class="arrow" x1="796" y1="561" x2="826" y2="561" marker-end="url(#ah)"/>
+  <text class="t" x="836" y="566" font-size="15">compare: error and rank correlation</text>
+</svg>
